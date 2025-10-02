@@ -1,18 +1,17 @@
 const express = require('express');
 const app = express();
 
-// Fonction utilitaire pour gérer la date
 function getDateObject(dateParam) {
   let date;
 
   if (!dateParam) {
-    // Date actuelle
+    // Si pas de date, date actuelle
     date = new Date();
   } else if (/^\d+$/.test(dateParam)) {
-    // Timestamp Unix en millisecondes
-    date = new Date(parseInt(dateParam));
+    // Si c'est un nombre uniquement, traiter comme timestamp Unix en millisecondes
+    date = new Date(Number(dateParam));
   } else {
-    // Date au format string
+    // Sinon, date string
     date = new Date(dateParam);
   }
 
@@ -26,21 +25,16 @@ function getDateObject(dateParam) {
   };
 }
 
-// Route avec paramètre de date
-app.get('/api/:date', (req, res) => {
-  res.json(getDateObject(req.params.date));
-});
-
-// Route sans paramètre (date actuelle)
-app.get('/api', (req, res) => {
-  res.json(getDateObject());
-});
-
 // Route racine
 app.get('/', (req, res) => {
   res.send('Microservice d\'horodatage');
 });
 
-// Démarrer le serveur
+// Route avec date optionnelle
+app.get('/api/:date?', (req, res) => {
+  res.json(getDateObject(req.params.date));
+});
+
+// Démarrage du serveur
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
