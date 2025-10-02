@@ -1,37 +1,39 @@
 const express = require('express');
 const app = express();
 
-// Fonction pour gérer la date
-function handleDate(dateParam, res) {
+// Fonction utilitaire pour gérer la date
+function getDateObject(dateParam) {
   let date;
 
   if (!dateParam) {
-    date = new Date(); // date actuelle si aucun param
+    // Date actuelle
+    date = new Date();
   } else if (/^\d+$/.test(dateParam)) {
-    // timestamp Unix
+    // Timestamp Unix en millisecondes
     date = new Date(parseInt(dateParam));
   } else {
-    date = new Date(dateParam); // date string
+    // Date au format string
+    date = new Date(dateParam);
   }
 
   if (date.toString() === "Invalid Date") {
-    res.json({ error: "Invalid Date" });
-  } else {
-    res.json({
-      unix: date.getTime(),
-      utc: date.toUTCString()
-    });
+    return { error: "Invalid Date" };
   }
+
+  return {
+    unix: date.getTime(),
+    utc: date.toUTCString()
+  };
 }
 
-// Route pour la date passée en paramètre
+// Route avec paramètre de date
 app.get('/api/:date', (req, res) => {
-  handleDate(req.params.date, res);
+  res.json(getDateObject(req.params.date));
 });
 
 // Route sans paramètre (date actuelle)
 app.get('/api', (req, res) => {
-  handleDate(null, res);
+  res.json(getDateObject());
 });
 
 // Route racine
