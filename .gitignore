@@ -1,27 +1,37 @@
+# Environnements virtuels
+venv/
+ENV/
+.env/
+.venv/
 
-# Fichiers pycache
+# Fichiers Python compilés
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
 
-# Node modules
-node_modules/
-
-# Logs
-logs/
+# Fichiers de logs et bases locales
 *.log
-npm-debug.log*
+*.sqlite3
 
-# Environnements
-.env
+# Configs locales et secrets
+*.env
+config.json
+*.ini
 
-# Dossiers de build / distribution
-dist/
-build/
+# Caches
+.cache/
+*.egg-info/
+.eggs/
 
-# MacOS / Windows / Linux files
+# Outils/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Mac / Windows
 .DS_Store
 Thumbs.db
 
-# IDE
-.vscode/
-.idea/
+# Notebooks checkpoints
+.ipynb_checkpoints/
